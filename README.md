@@ -137,19 +137,6 @@ Returns all available text generation models with their capabilities.
 5. **Translate** response back to OpenAI format
 6. **Return** completion response
 
-## Available Models
-
-Currently available models (varies by worker availability):
-
-- `koboldcpp/Fimbulvetr-11B-v2`
-- `koboldcpp/NeonMaid-12B-v2`
-- `TheDrummer/Cydonia-24B-v4.3`
-- `koboldcpp/L3-8B-Stheno-v3.2`
-- `zai-org/GLM-4.6`
-- And 24+ more...
-
-Run `python update_opencode_models.py --once` to refresh the model list.
-
 ## Testing
 
 ```bash
