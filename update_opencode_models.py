@@ -50,7 +50,7 @@ def format_model_name(model_id: str) -> str:
 def get_capabilities_from_worker(worker: Dict) -> Dict:
     """Extract capabilities from a worker object."""
     return {
-        "max_context_length": min(worker.get("max_context_length", 4096), 4096),
+        "max_context_length": worker.get("max_context_length", 4096),
         "max_generation_length": min(worker.get("max_length", 4096), 4096),
     }
 
