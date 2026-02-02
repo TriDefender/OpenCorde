@@ -162,6 +162,8 @@ pytest tests/ -v
 |----------|-------------|---------|
 | `AI_HORDE_API_KEY` | AI Horde API key | `0000000000` (anonymous) |
 
+Even though you can use the anon apikey, still, its suggested for you to [obtain your key](https://aihorde.net/register) (and contribute back to the horde).
+
 ## Limitations
 
 - **No true streaming**: AI Horde's async API doesn't support real-time streaming
