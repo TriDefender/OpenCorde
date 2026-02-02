@@ -1,6 +1,7 @@
 """Model registry for AI Horde models with capabilities from /v2/workers."""
 
 import asyncio
+import os
 import time
 from typing import Any, Dict, Optional
 from dataclasses import dataclass, field
@@ -29,10 +30,13 @@ class ModelRegistry:
 
     def __init__(
         self,
-        api_key: str = "0000000000",
+        api_key: str = None,
         base_url: str = AI_HORDE_BASE_URL,
         cache_ttl: int = 300,  # 5 minutes
     ):
+        # Read API key from environment or use provided/default
+        if api_key is None:
+            api_key = os.environ.get("AI_HORDE_API_KEY", "0000000000")
         self.api_key = api_key
         self.base_url = base_url
         self.cache_ttl = cache_ttl
@@ -65,7 +69,7 @@ class ModelRegistry:
                 worker_id = worker.get("id", "unknown")
                 worker_online = worker.get("online", False)
                 worker_trusted = worker.get("trusted", False)
-                max_length = min(worker.get("max_length", 4096), 4096)
+                max_length = worker.get("max_length", 4096)
                 max_context = worker.get("max_context_length", 4096)
 
                 for model_name in worker_models:

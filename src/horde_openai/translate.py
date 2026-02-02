@@ -140,7 +140,7 @@ def translate_chat_request_to_horde(
     messages: List[Dict[str, Any]],
     model: str,
     params: Dict[str, Any],
-    model_registry: ModelRegistry,
+    model_registry: "ModelRegistry",
 ) -> Dict[str, Any]:
     """Translate OpenAI chat completion request to AI Horde async format.
 
@@ -163,7 +163,11 @@ def translate_chat_request_to_horde(
 
     # Map parameters
     max_tokens = params.get("max_tokens", 100)
-    max_length = min(max_tokens, capabilities.max_generation_length)
+    max_length = (
+        min(max_tokens, capabilities.max_generation_length)
+        if capabilities.max_generation_length
+        else max_tokens
+    )
     max_context = capabilities.max_context_length
 
     # Map penalties - use the maximum of frequency and presence penalty
@@ -171,22 +175,34 @@ def translate_chat_request_to_horde(
     pres_penalty = params.get("presence_penalty", 0.0)
     rep_pen = max(freq_penalty, pres_penalty)
     if rep_pen == 0.0:
-        rep_pen = 1.1  # Default value
+        rep_pen = 1.1
 
     return {
         "prompt": prompt,
         "params": {
             "max_length": max_length,
             "max_context_length": max_context,
-            "temperature": params.get("temperature", 0.7),
-            "top_p": params.get("top_p", 0.9),
-            "top_k": params.get("top_k", 40),
-            "rep_pen": rep_pen,
+            "temperature": params.get("temperature", 1.0),
+            "tfs": 1.0,
+            "top_a": 0.0,
+            "top_k": params.get("top_k", 50),
+            "top_p": params.get("top_p", 0.95),
+            "typical": 1.0,
+            "sampler_order": [6, 0, 1, 2, 3, 4, 5],
+            "use_default_badwordsids": True,
+            "min_p": 0.01,
+            "smoothing_factor": 0.0,
             "n": params.get("n", 1),
         },
         "models": [model],
         "trusted_workers": capabilities.trusted,
-        "slow_workers": True,  # Prefer slower workers for better availability
+        "validated_backends": False,
+        "slow_workers": True,
+        "worker_blacklist": False,
+        "dry_run": False,
+        "disable_batching": False,
+        "allow_downgrade": True,
+        "extra_slow_workers": False,
     }
 
 

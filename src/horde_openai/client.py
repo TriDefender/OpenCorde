@@ -1,6 +1,7 @@
 """AI Horde HTTP client for async requests with polling."""
 
 import asyncio
+import os
 import time
 from typing import Any, Dict, List, Optional
 
@@ -39,11 +40,14 @@ class AIHordeClient:
 
     def __init__(
         self,
-        api_key: str = "0000000000",
+        api_key: str = None,
         base_url: str = AI_HORDE_BASE_URL,
         timeout: int = 120,
         poll_interval: float = 2.0,
     ):
+        # Read API key from environment or use provided/default
+        if api_key is None:
+            api_key = os.environ.get("AI_HORDE_API_KEY", "0000000000")
         self.api_key = api_key
         self.base_url = base_url
         self.timeout = timeout

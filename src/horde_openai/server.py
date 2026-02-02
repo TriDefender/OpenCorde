@@ -175,8 +175,20 @@ async def create_chat_completion(request: ChatCompletionRequest):
     # Convert messages to dict format
     messages = [msg.model_dump() for msg in request.messages]
 
-    # Check if model is available
+    # Check if model is available in registry
     capabilities = client.get_model_capabilities(request.model)
+
+    # Verify model is actually registered (not a default fallback)
+    if request.model not in client.model_registry.list_models():
+        return JSONResponse(
+            status_code=400,
+            content=translate_error_response(
+                f"Model {request.model} is not available on AI Horde",
+                "invalid_request_error",
+                "model_not_found",
+            ),
+        )
+
     if not capabilities.online:
         return JSONResponse(
             status_code=400,
