@@ -40,8 +40,10 @@ pip install -e .
 ### 1. Start the Server
 
 ```bash
+SET AI_HORDE_API_KEY=your_api_key(defaults to low priority queue if left empty)
 uvicorn horde_openai.server:app --host 0.0.0.0 --port 8080
 ```
+You WILL randomly hit 403 errors if this is not specified, it's not a bug.
 
 ### 2. Make a Request
 
@@ -49,7 +51,7 @@ uvicorn horde_openai.server:app --host 0.0.0.0 --port 8080
 curl -X POST http://localhost:8080/v1/chat/completions \
   -H "Content-Type: application/json" \
   -d '{
-    "model": "koboldcpp/Fimbulvetr-11B-v2",
+    "model": "awsome_engine/splendid_model",
     "messages": [{"role": "user", "content": "Hello! How are you?"}],
     "max_tokens": 50
   }'
