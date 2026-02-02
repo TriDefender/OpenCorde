@@ -8,16 +8,16 @@ AI Horde is a crowdsourced distributed cluster of text and image generation work
 
 ```
 ┌─────────────┐     ┌──────────────────┐     ┌─────────────┐
-│  opencode   │────▶│  Interposer      │────▶│  AI Horde   │
+│  opencode   │───▶│  Interposer      │───▶│  AI Horde   │
 │  or any     │     │  (this project)  │     │  API        │
-│  OpenAI SDK │◀────│                  │◀────│             │
+│  OpenAI SDK │◀───│                  │◀───│             │
 └─────────────┘     └──────────────────┘     └─────────────┘
                           │
                           ▼
-                  ┌──────────────┐
+                  ┌───────────────┐
                   │ Model Registry│
                   │ (from workers)│
-                  └──────────────┘
+                  └───────────────┘
 ```
 
 ## Features
